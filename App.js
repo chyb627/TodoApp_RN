@@ -8,11 +8,12 @@ import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
 import TodoList from './components/TodoList';
 import todosStorage from './storages/todosStorage';
+import { func } from 'joi';
 
 function App ()  {
 
   const today = new Date();
-  console.log("today :: ", today)
+  // console.log("today :: ", today)
 
   const [todos, setTodos] = useState([
     {id: 1, text: '작업환경 설정', done: true},
@@ -44,6 +45,32 @@ function App ()  {
     const nextTodos = todos.filter(todo => todo.id !== id);
     setTodos(nextTodos);
   };
+
+  function calculate(callback) {
+    console.log('calculating...');
+    setTimeout(()=>{
+      let result = 0;
+      for (let i = 1; i <10; i++) {
+        result += i;
+      }
+      // console.log(`9! = ${result}`);
+      callback(result);
+    }, 0)
+  }
+
+  function hello() {
+    console.log('hello');
+  }
+
+  function sleep(ms) {
+    return new Promise (resolve => setTimeout(resolve,ms));
+  }
+
+  async function process(){
+    console.log('Hi');
+    await sleep(1000);
+    console.log('Nice to Meet you');
+  }
 
   // //불러오기
   // useEffect(() => {
@@ -79,6 +106,14 @@ function App ()  {
   useEffect(()=>{
     todosStorage.set(todos).catch(console.error);
   },[todos]);
+
+  useEffect(()=>{
+    calculate(result => {
+      console.log(`9! = ${result}`);
+    });
+    hello();
+    process();
+  });
 
   return (
       <SafeAreaProvider>
