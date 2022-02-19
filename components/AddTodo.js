@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, TextInput, Image, TouchableOpacity, Platform, TouchableNativeFeedback, Keyboard,} from 'react-native';
 
-function AddTodo() {
+function AddTodo({onInsert}) {
 
     const [text, textSet] = useState('');
     // console.log("입력 문자 ::", text);
 
     const onPress = () => {
+        onInsert(text);
         textSet('');
         Keyboard.dismiss();
     };
@@ -24,8 +25,8 @@ function AddTodo() {
                 style={styles.input} 
                 value={text}
                 onChangeText={textSet}
-                onSubmitEditing={onPress}
-                returnKeyType="done"
+                onSubmitEditing={onPress}  // 엔터를 눌렀을 때 호출
+                returnKeyType="done"       // 엔터의 타입 지정
             />
             {/* {Platform.OS === 'ios' ? (
                 <TouchableOpacity activeOpacity={0.5}>
